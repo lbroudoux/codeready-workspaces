@@ -1,0 +1,63 @@
+{
+  "creator": "0c829614-2f96-44df-8ffa-2fb14003e83c",
+  "tags": [
+    "Java 1.8"
+  ],
+  "workspaceConfig": {
+    "projects": [],
+    "commands": [
+      {
+        "commandLine": "mvn clean install -f ${current.project.path}/pom.xm",
+        "name": "build",
+        "type": "custom",
+        "attributes": {}
+      }
+    ],
+    "defaultEnv": "default",
+    "name": "default",
+    "attributes": {},
+    "environments": {
+      "default": {
+        "recipe": {
+          "type": "dockerimage",
+          "content": "docker.io/lbroudoux/stacks-java:1.0.0.Beta2",
+          "contentType": ""
+        },
+        "machines": {
+          "dev-machine": {
+            "servers": {
+              "eap": {
+                "attributes": {},
+                "protocol": "http",
+                "port": "8080"
+              },
+              "eap-debug": {
+                "attributes": {},
+                "protocol": "http",
+                "port": "8000"
+              }
+            },
+            "volumes": {},
+            "installers": [
+              "com.redhat.bayesian.lsp",
+              "org.eclipse.che.exec",
+              "org.eclipse.che.ls.java",
+              "org.eclipse.che.terminal",
+              "org.eclipse.che.ws-agent"
+            ],
+            "attributes": {
+              "memoryLimitBytes": "2147483648"
+            },
+            "env": {}
+          }
+        }
+      }
+    },
+    "links": []
+  },
+  "components": [],
+  "scope": "general",
+  "description": "Custom Java Stack with OpenJDK 1.8, Maven 3.5",
+  "name": "Custom Java 1.8 - Beta2",
+  "id": "stacka0qjw345816gasjd"
+}

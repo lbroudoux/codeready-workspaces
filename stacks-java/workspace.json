@@ -1,0 +1,68 @@
+{
+  "projects": [
+    {
+      "problems": [],
+      "mixins": [],
+      "links": [],
+      "source": {
+        "location": "https://github.com/lbroudoux/openshift-tasks",
+        "type": "git",
+        "parameters": {}
+      },
+      "description": "",
+      "name": "openshift-tasks",
+      "type": "maven",
+      "path": "/openshift-tasks",
+      "attributes": {
+        "commands": [
+          "{\"commandLine\":\"mvn clean install -f ${current.project.path}/pom.xml\", \"name\":\"build\", \"attributes\":{\"goal\":\"Build\"}, \"type\":\"custom\"}",
+          "{\"commandLine\":\"export JAVA_OPTS= && export JAVA_OPTS_APPEND=-Dsun.util.logging.disableCallerCheck=true && \\\\\\n    /opt/eap/bin/standalone.sh -b 0.0.0.0\", \"name\":\"start-eap\", \"attributes\":{\"goal\":\"Run\", \"previewUrl\":\"\"}, \"type\":\"custom\"}",
+          "{\"commandLine\":\"cp /projects/openshift-tasks/target/openshift-tasks.war /opt/eap/standalone/deployments/ROOT.war\", \"name\":\"copy-war\", \"attributes\":{\"goal\":\"Deploy\", \"previewUrl\":\"\"}, \"type\":\"custom\"}",
+          "{\"commandLine\":\"export JAVA_OPTS= && export JAVA_OPTS_APPEND=-Dsun.util.logging.disableCallerCheck=true && \\\\\\n\\t/opt/eap/bin/standalone.sh -b 0.0.0.0 --debug 8000\", \"name\":\"start-eap-debug\", \"attributes\":{\"goal\":\"Debug\", \"previewUrl\":\"\"}, \"type\":\"custom\"}"
+        ]
+      }
+    }
+  ],
+  "commands": [],
+  "defaultEnv": "default",
+  "name": "custom-java-wksp-beta2",
+  "attributes": {},
+  "environments": {
+    "default": {
+      "recipe": {
+        "type": "dockerimage",
+        "content": "docker.io/lbroudoux/stacks-java:1.0.0.Beta2",
+        "contentType": ""
+      },
+      "machines": {
+        "dev-machine": {
+          "servers": {
+            "eap": {
+              "attributes": {},
+              "protocol": "http",
+              "port": "8080"
+            },
+            "eap-debug": {
+              "attributes": {},
+              "protocol": "http",
+              "port": "8000"
+            }
+          },
+          "volumes": {},
+          "installers": [
+            "com.redhat.bayesian.lsp",
+            "org.eclipse.che.exec",
+            "org.eclipse.che.ls.java",
+            "org.eclipse.che.terminal",
+            "org.eclipse.che.ws-agent"
+          ],
+          "attributes": {
+            "memoryLimitBytes": "2147483648"
+          },
+          "env": {}
+        }
+      }
+    }
+  },
+  "links": []
+}

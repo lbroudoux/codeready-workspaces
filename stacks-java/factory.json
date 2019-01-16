@@ -1,0 +1,79 @@
+{
+  "v": "4.0",
+  "name": "tasks-factory",
+  "workspace": {
+    "defaultEnv": "default",
+    "environments": {
+      "default": {
+        "machines": {
+          "dev-machine": {
+            "attributes": {
+              "memoryLimitBytes": "2147483648"
+            },
+            "servers": {
+              "eap": {
+                "attributes": {},
+                "port": "8080",
+                "protocol": "http"
+              },
+              "eap-debug": {
+                "attributes": {},
+                "port": "8000",
+                "protocol": "http"
+              }
+            },
+            "volumes": {},
+            "installers": [
+              "com.redhat.bayesian.lsp",
+              "org.eclipse.che.exec",
+              "org.eclipse.che.ls.java",
+              "org.eclipse.che.terminal",
+              "org.eclipse.che.ws-agent"
+            ],
+            "env": {}
+          }
+        },
+        "recipe": {
+          "type": "dockerimage",
+          "content": "docker.io/lbroudoux/stacks-java:1.0.0.Beta2",
+          "contentType": ""
+        }
+      }
+    },
+    "projects": [
+      {
+        "links": [],
+        "name": "openshift-tasks",
+        "attributes": {
+          "commands": [
+            "{\"commandLine\":\"mvn clean install -f ${current.project.path}/pom.xml\", \"name\":\"build\", \"attributes\":{\"goal\":\"Build\"}, \"type\":\"custom\"}",
+            "{\"commandLine\":\"export JAVA_OPTS= && export JAVA_OPTS_APPEND=-Dsun.util.logging.disableCallerCheck=true && \\\\\\n    /opt/eap/bin/standalone.sh -b 0.0.0.0\", \"name\":\"start-eap\", \"attributes\":{\"goal\":\"Run\", \"previewUrl\":\"\"}, \"type\":\"custom\"}",
+            "{\"commandLine\":\"cp /projects/openshift-tasks/target/openshift-tasks.war /opt/eap/standalone/deployments/ROOT.war\", \"name\":\"copy-war\", \"attributes\":{\"goal\":\"Deploy\", \"previewUrl\":\"\"}, \"type\":\"custom\"}",
+            "{\"commandLine\":\"export JAVA_OPTS= && export JAVA_OPTS_APPEND=-Dsun.util.logging.disableCallerCheck=true && \\\\\\n\\t/opt/eap/bin/standalone.sh -b 0.0.0.0 --debug 8000\", \"name\":\"start-eap-debug\", \"attributes\":{\"goal\":\"Debug\", \"previewUrl\":\"\"}, \"type\":\"custom\"}"
+          ]
+        },
+        "type": "maven",
+        "source": {
+          "location": "https://github.com/lbroudoux/openshift-tasks",
+          "type": "git",
+          "parameters": {}
+        },
+        "path": "/openshift-tasks",
+        "description": "",
+        "problems": [],
+        "mixins": []
+      }
+    ],
+    "name": "custom-java-wksp-beta2",
+    "attributes": {},
+    "commands": [],
+    "links": []
+  },
+  "id": "factoryd0fpqmdo26hc1lze",
+  "creator": {
+    "name": "adminocp",
+    "email": "lbroudou@redhat.com",
+    "created": 1547221117454,
+    "userId": "0c829614-2f96-44df-8ffa-2fb14003e83c"
+  }
+}
